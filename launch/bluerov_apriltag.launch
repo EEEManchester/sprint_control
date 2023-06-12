@@ -1,0 +1,28 @@
+<launch>
+  <!-- <include file="$(find usb_cam)/launch/usb_cam-test.launch" /> -->
+
+<arg name="vehicle_name" default="bluerov" />
+<group ns="$(arg vehicle_name)">
+
+  <arg name="node_namespace" default="apriltag_ros_continuous_node" />
+      <!-- load parameters (incl. tag family, tags, etc.) -->
+  <rosparam command="load" file="$(find apriltag_ros)/config/settings.yaml" ns="$(arg node_namespace)" />
+  <rosparam command="load" file="$(find apriltag_ros)/config/tags.yaml" ns="$(arg node_namespace)" />
+ 
+  <node pkg="nodelet" type="nodelet" name="nodelet_service" args="manager" />
+
+  <node pkg="nodelet" type="nodelet" name="usb_camera" args="load image_proc/rectify nodelet_service">
+    <remap from="/image_mono" to="/usb_cam/image_raw" />
+    <remap from="/camera_info" to="/usb_cam/camera_info" />
+  </node>
+  
+  <!-- apriltag_ros continuous detection node -->
+  <node pkg="apriltag_ros" type="apriltag_ros_continuous_node" name="apriltag_ros_continuous_node" clear_params="true" output="screen" >
+    <!-- Remap topics from those used in code to those on the ROS network -->
+    <!-- <remap from="image_rect" to="/image_rect" />
+    <remap from="camera_info" to="/usb_cam/camera_info" /> -->
+
+    <param name="publish_tag_detections_image" type="bool" value="true" /><!-- default: false -->
+  </node>
+</group>
+</launch>

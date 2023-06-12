@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/keir/mallard_ws/devel/include/**",
+        "/home/keir/catkin_sos/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/keir/mallard_ws/src/mavros/libmavconn/include/**",
+        "/home/keir/mallard_ws/src/mavros/mavros/include/**",
+        "/home/keir/mallard_ws/src/mavros/mavros_msgs/include/**",
+        "/home/keir/mallard_ws/src/motion_capture_system/mocap_base/include/**",
+        "/home/keir/mallard_ws/src/motion_capture_system/mocap_qualisys/include/**",
+        "/home/keir/catkin_sos/src/MallARD/microstrain_inertial/ros_mscl/include/**",
+        "/home/keir/mallard_ws/src/mavros/test_mavros/include/**",
+        "/home/keir/mallard_ws/src/MallARD/xueliang_localisation/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

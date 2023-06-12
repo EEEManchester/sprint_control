@@ -12,13 +12,12 @@
         requests that specific port" />
     <arg name="qtm_protocol_version" default="18"/>
     <!-- <include file="$(find bluerov_sim)/launch/gazebo_base.launch" /> -->
-    <!-- <include file="$(find apriltag_ros)/launch/continous_detection.launch" /> -->
     <!-- <include file="$(find bluerov_sim)/launch/spawn_single_tag.launch" /> -->
     <!-- spawn BlueROV model -->
     <group ns="$(arg vehicle_name)">
         <node name="Joy2mix" pkg="sprint_control" type="bluerov_joy2mixer.py" />
-        <node name="rp2cmd" pkg="sprint_control" type="bluerov_rollpitch2mixer.py" />
-        <node name="mixer" pkg="sprint_control" type="mixer_sprint.py" />
+        <!-- <node name="rp2cmd" pkg="sprint_control" type="bluerov_rollpitch2mixer.py" /> -->
+        <node name="mixer" pkg="sprint_control" type="mixer_sprint_man.py" />
         <node name="joy_node" pkg="joy" type="joy_node" />
         <node pkg="mocap_qualisys"
             type="mocap_qualisys_node"
@@ -33,6 +32,7 @@
             <param name="udp_port" value="$(arg udp_port)"/>
             <param name="qtm_protocol_version" value="$(arg qtm_protocol_version)"/>
             <rosparam param="model_list">[]</rosparam>
+            <!--remap from="qualisys/F450/odom" to="/f450/odom"/-->
         </node>
     </group>
 </launch>
