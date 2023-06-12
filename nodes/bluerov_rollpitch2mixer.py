@@ -34,7 +34,7 @@ def joy2cmd():
     rospy.Subscriber("/bluerov/mavros/imu/data", Imu, sub_callback)
 
     # rospy.Subscriber("/bluerov/twist", Twist, joy2cmd_callback)
-    pub = rospy.Publisher("twist_rp", Twist, queue_size=2)
+    pub = rospy.Publisher("twist_rp", Twist, queue_size=1)
 
     rospy.spin()
 

@@ -23,8 +23,8 @@ class MixerNode():
         self.lateral_thrust = 0.0
 
         self.twist_sub = rospy.Subscriber("twist", Twist, self.twist_remap)
-        self.twist_sub_ry = rospy.Subscriber("twist_rp", Twist, self.twist_rp_remap)
-        self.twist_sub_ry = rospy.Subscriber("twist_depth", Twist, self.twist_depth_remap)
+        self.twist_sub_rp = rospy.Subscriber("twist_rp", Twist, self.twist_rp_remap)
+        self.twist_sub_depth = rospy.Subscriber("twist_depth", Twist, self.twist_depth_remap)
 
     def twist_depth_remap(self, msg):
         with self.data_lock:
