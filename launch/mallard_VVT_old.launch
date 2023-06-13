@@ -3,8 +3,8 @@
 
    <!-- added by kanzhong for June sprint VVT control -->
    <group ns="mallard">
-      <node name="Virtual_tether" pkg="visual_virtual_tether" type="virtual_tether.py"/>
-      <node name="mallard_to_twist" pkg="visual_virtual_tether" type="obj_to_cmdvel_mall.py"/>
+      <node name="Virtual_tether" pkg="visual_virtual_tether" type="virtual_tether_old.py"/>
+      <node name="mallard_to_twist" pkg="visual_virtual_tether" type="obj_to_cmdvel_mall_old.py"/>
    </group>
 
    <!-- Get MALLARD_VERSION -->
