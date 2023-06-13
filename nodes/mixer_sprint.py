@@ -54,14 +54,23 @@ class MixerNode():
         # Joystick data input
         # rate = rospy.Rate(50.0)
         while not rospy.is_shutdown():
+            # cmd_vel = OverrideRCIn()
+            # cmd_vel_y = 1500 + (400 * self.lateral_thrust)
+            # cmd_vel_x = 1500 + (400 * self.thrust)
+            # cmd_vel_yaw = 1500 + (400 * self.yaw)
+            # cmd_vel_z = 1500 + (400 * self.vertical_thrust)
+            # cmd_vel_roll = 1500 + (400 * self.roll)
+            # cmd_vel_pitch = 1500 + (400 * self.pitch)
+            # cmd_vel.channels = [cmd_vel_pitch, cmd_vel_roll, cmd_vel_z, cmd_vel_yaw, cmd_vel_x, cmd_vel_y, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             cmd_vel = OverrideRCIn()
-            cmd_vel_y = 1500 + (400 * self.lateral_thrust)
-            cmd_vel_x = 1500 + (400 * self.thrust)
-            cmd_vel_yaw = 1500 + (400 * self.yaw)
-            cmd_vel_z = 1500 + (400 * self.vertical_thrust)
-            cmd_vel_roll = 1500 + (400 * self.roll)
-            cmd_vel_pitch = 1500 + (400 * self.pitch)
+            cmd_vel_y = int(1500 + (400 * self.lateral_thrust))
+            cmd_vel_x = int(1500 + (400 * self.thrust))
+            cmd_vel_yaw = int(1500 + (400 * self.yaw))
+            cmd_vel_z = int(1500 + (400 * self.vertical_thrust))
+            cmd_vel_roll = int(1500 + (400 * self.roll))
+            cmd_vel_pitch = int(1500 + (400 * self.pitch))
             cmd_vel.channels = [cmd_vel_pitch, cmd_vel_roll, cmd_vel_z, cmd_vel_yaw, cmd_vel_x, cmd_vel_y, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
             self.setpoint_pub.publish(cmd_vel)
 
 def main():
