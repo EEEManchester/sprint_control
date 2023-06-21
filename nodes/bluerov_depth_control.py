@@ -45,9 +45,13 @@ def publish_message():
     global depth, current_velocity, des_depth
     cmd_vel = Twist()
 
-    cmd_vel.linear.z = (des_depth - depth)*0.5 - current_velocity
-    if cmd_vel.linear.z > 0.8:
-        cmd_vel.linear.z=0.8
+    # cmd_vel.linear.z = (des_depth - depth)*0.5 - current_velocity
+    cmd_vel.linear.z = -(des_depth - depth)*0.5
+
+    # cmd_vel.linear.z =0
+    if abs(cmd_vel.linear.z) > 0.5:
+        # cmd_vel.linear.z=0.8
+        cmd_vel.linear.z = 0.5 if cmd_vel.linear.z > 0 else -0.5
     cmd_vel.linear.y = 0
     cmd_vel.linear.x = 0
 
@@ -61,7 +65,7 @@ def joy2cmd():
     global pub
 
     rospy.init_node('depth2cmd')
-    pub = rospy.Publisher("twist_depth", Twist, queue_size=2)
+    pub = rospy.Publisher("twist_depth", Twist, queue_size=1)
     rospy.Subscriber("/bluerov/mavros/global_position/rel_alt", Float64, depth_callback)
     rospy.Subscriber("/bluerov/depth_desire", Float64, desire_callback)
 

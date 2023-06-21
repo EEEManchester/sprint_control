@@ -19,10 +19,12 @@ def sub_callback(msg):
     cmd_vel.angular.y = -0.6*eu_angles[1]
     cmd_vel.angular.z = 0.5*0
     cmd_vel.angular.x = 0.6*eu_angles[0]
-    if cmd_vel.angular.y > 0.8:
-        cmd_vel.angular.y=0.8
-    if cmd_vel.angular.x > 0.8:
-        cmd_vel.angular.x = 0.8
+    if abs(cmd_vel.angular.y) > 0.5:
+        # cmd_vel.angular.y=0.5
+        cmd_vel.angular.y = 0.5 if cmd_vel.angular.y > 0 else -0.5
+    if abs(cmd_vel.angular.x) > 0.5:
+        # cmd_vel.angular.x = 0.8
+        cmd_vel.angular.x = 0.5 if cmd_vel.angular.x > 0 else -0.5
     pub.publish(cmd_vel)
 
 def joy2cmd():

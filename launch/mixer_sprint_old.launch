@@ -22,7 +22,8 @@
         <node name="Virtual_tether" pkg="visual_virtual_tether" type="virtual_tether_old.py"/>
         <node name="bluerov_to_twist" pkg="visual_virtual_tether" type="obj_to_twist_bluerov_old.py"/>
         <node name="mixer" pkg="sprint_control" type="mixer_sprint_VVT.py" />
-        
+        <node name="image_decompressor" pkg="sprint_control" type="image_remap.py" />
+
         <node name="joy_node" pkg="joy" type="joy_node" />
         <node pkg="mocap_qualisys"
             type="mocap_qualisys_node"
