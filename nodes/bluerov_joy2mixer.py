@@ -24,7 +24,7 @@ def joy2mix():
     global eu_angles
     cmd_vel = Twist()
 
-    rospy.Subscriber("/bluerov/joy", Joy, joy2cmd_callback)
+    rospy.Subscriber("/bluerov/joy_bluerov", Joy, joy2cmd_callback)
     # rospy.Subscriber("/bluerov/twist", Twist, joy2cmd_callback)
     pub = rospy.Publisher("cmd_vel1", Twist, queue_size=2)
 
