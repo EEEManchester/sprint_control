@@ -1,0 +1,4 @@
+<launch>
+  <node name="record" pkg="rosbag" type="record" args="-o ky_rosbag /bluerov/cmd_vel1 /bluerov/cmd_vel2 /bluerov/mavros/global_position/rel_alt /bluerov/mavros/imu/data /bluerov/mavros/imu/data_raw /bluerov/mavros/rc/override /bluerov/tag_detections /bluerov/tag_detections_image/compressed /bluerov/tag_detections_raw /bluerov/twist /bluerov/twist_rp /imu/data /nav/filtered_imu/data /slam_out_pose /tag_detections /usb_cam/image_raw/compressed /tag_detections_raw /bluerov/qualisys/MallARD_Center/pose /bluerov/qualisys/MallARD_Center/velocity /nav/filtered_imu/data /qualisys/Mallard_pattern1/pose /qualisys/Mallard_pattern1/velocity" output="screen" />
+</launch>
+

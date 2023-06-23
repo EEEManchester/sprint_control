@@ -1,6 +1,9 @@
 <launch>
     <arg name="vehicle_name" default="bluerov" />
-    <arg name="server_address" default="192.168.2.1"/>
+    <!-- underwater qualisys -->
+    <!-- <arg name="server_address" default="192.168.2.1"/> -->
+    <!-- air qualisys -->
+    <arg name="server_address" default="192.168.254.1"/>
     <arg name="server_base_port" default="22222"/>
     <arg name="frame_rate" default="0"/>
     <arg name="max_accel" default="10.0"/>
