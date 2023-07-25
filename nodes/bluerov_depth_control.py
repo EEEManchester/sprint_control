@@ -10,7 +10,7 @@ prev_z = None
 prev_time = None
 depth = 0
 current_velocity = 0
-des_depth = -1
+des_depth = -0
 
 def depth_callback(msg):
     global prev_z, prev_time, depth, current_velocity
