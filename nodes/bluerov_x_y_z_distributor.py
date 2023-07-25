@@ -28,10 +28,12 @@ class x_y_z_distributor():
                                             Float64,
                                             queue_size=1)
         self.data_lock = threading.RLock()
-        self.position_x= None
-        self.position_y = None
-        self.desire_x= None
-        self.desire_y= None
+        self.position_x= 0.0
+        self.position_y = 0.0
+        self.position_z = 0.0
+        self.desire_x= 0.0
+        self.desire_y= 0.0
+        self.desire_z = 0.0
 
         self.position_x_y_z_sub = rospy.Subscriber("/dscap_sys", PoseStamped, self.x_y_z_callback)
         self.desire_x_y_z_sub = rospy.Subscriber("/desire_x_y_z", Pose, self.desire_x_y_z_callback)
@@ -52,16 +54,18 @@ class x_y_z_distributor():
 
         while not rospy.is_shutdown():
             if self.position_x:
-                self.position_x_pub(self.position_x)
+                self.position_x_pub.publish(self.position_x)
             if self.position_y:
-                self.position_x_pub(self.position_y)
+                self.position_y_pub.publish(self.position_y)
+            if self.position_z:
+                self.position_z_pub.publish(self.position_z)
 
             if self.desire_x:
-                self.desire_x_pub(self.desire_x)
+                self.desire_x_pub.publish(self.desire_x)
             if self.desire_y:
-                self.desire_x_pub(self.desire_y)
+                self.desire_y_pub.publish(self.desire_y)
             if self.desire_z:
-                self.desire_z_pub(self.desire_z)
+                self.desire_z_pub.publish(self.desire_z)
 
 def main():
     node = x_y_z_distributor()
