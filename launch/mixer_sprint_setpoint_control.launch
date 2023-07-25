@@ -26,6 +26,9 @@
         <node name="bluerov_to_twist" pkg="visual_virtual_tether" type="obj_to_twist_bluerov.py"/>
         <node name="mixer" pkg="sprint_control" type="mixer_sprint_VVT.py" />
         <node name="image_decompressor" pkg="sprint_control" type="image_remap.py" />
+
+        <node name="x_y_z_distributor" pkg="sprint_control" type="bluerov_x_y_z_distributor.py" />
+        <node name="x_y_control" pkg="sprint_control" type="x_y_control.py" />
         
         <node name="joy_node" pkg="joy" type="joy_node">
                 <remap from="joy" to="joy_bluerov"/>

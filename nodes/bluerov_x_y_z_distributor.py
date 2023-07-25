@@ -5,7 +5,7 @@ from geometry_msgs.msg import PoseStamped, Pose
 from std_msgs.msg import Float64
 
 
-class x_y_distributor():
+class x_y_z_distributor():
     def __init__(self):
         rospy.init_node("x_y_distributor")
 
@@ -64,7 +64,7 @@ class x_y_distributor():
                 self.desire_z_pub(self.desire_z)
 
 def main():
-    node = x_y_distributor()
+    node = x_y_z_distributor()
     node.run()
 
 if __name__ == "__main__":
