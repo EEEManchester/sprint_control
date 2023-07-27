@@ -1,0 +1,4 @@
+<launch>
+  <node name="record" pkg="rosbag" type="record" args="-o ky_rosbag_sh /mallard/cmd_vel /slam_out_pose /imu/data" output="screen" />
+</launch>
+

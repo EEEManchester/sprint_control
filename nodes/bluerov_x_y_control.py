@@ -45,7 +45,10 @@ class x_y_control():
                 self.desire_y = msg.data
 
     def twist_x_cal(self,x,desire_x):
-                linear_x= 0.0
+            linear_x= 0.0
+            if desire_x == 0:
+                return linear_x
+            else:
                 linear_x = (desire_x - x)
 
                 if abs(linear_x) > 0.15:
@@ -56,23 +59,28 @@ class x_y_control():
                 # self.twist_x.angular.y = 0
                 # self.twist_x.angular.z = 0
                 # self.twist_x.angular.x = 0
-    
+
                 return linear_x
             
     def twist_y_cal(self,y,desire_y):
+            
             linear_y= 0.0
-            linear_y = (desire_y - y)
+            if desire_y == 0:
+                return linear_y
+            else:
+            
+                linear_y = -(desire_y - y)
 
-            if abs(linear_y) > 0.15:
-                linear_y= 0.15 if linear_y > 0 else -0.15
+                if abs(linear_y) > 0.15:
+                    linear_y= 0.15 if linear_y > 0 else -0.15
 
-            # self.twist_y.linear.x = 0
-            # self.twist_y.linear.z = 0
-            # self.twist_y.angular.y = 0
-            # self.twist_y.angular.z = 0
-            # self.twist_y.angular.x = 0
+                # self.twist_y.linear.x = 0
+                # self.twist_y.linear.z = 0
+                # self.twist_y.angular.y = 0
+                # self.twist_y.angular.z = 0
+                # self.twist_y.angular.x = 0
 
-            return linear_y
+                return linear_y
 
 
     def run(self):

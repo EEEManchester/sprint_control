@@ -46,9 +46,9 @@ class x_y_z_distributor():
 
     def desire_x_y_z_callback(self, msg):
         with self.data_lock:
-            self.desire_x = msg.pose.position.x
-            self.desire_y = msg.pose.position.y
-            self.desire_z = msg.pose.position.z
+            self.desire_x = msg.position.x
+            self.desire_y = msg.position.y
+            self.desire_z = msg.position.z
    
     def run(self):
 
