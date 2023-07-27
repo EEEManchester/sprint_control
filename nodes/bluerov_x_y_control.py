@@ -19,11 +19,21 @@ class x_y_control():
         self.position_y = 0.0
         self.desire_x= 0.0
         self.desire_y= 0.0
+        self.vel_yaw = 0
         self.data_lock = threading.RLock()
         self.position_x_sub = rospy.Subscriber("/bluerov/position_x", Float64, self.x_callback)
         self.desire_x_sub = rospy.Subscriber("/bluerov/desire_x", Float64, self.desire_x_callback)
         self.position_y_sub = rospy.Subscriber("/bluerov/position_y", Float64, self.y_callback)
         self.desire_y_sub = rospy.Subscriber("/bluerov/desire_y", Float64, self.desire_y_callback)
+        self.yaw_sub = rospy.Subscriber("/yaw", Float64, self.yaw_callback)
+
+    def yaw_callback(self, msg):
+        with self.data_lock:
+                yaw = msg.data
+                self.vel_yaw = -1 + ((yaw - (-3.14)) * (1 - (-1)) / (3.14 - (-3.14)))
+                if abs(self.vel_yaw) > 0.5:
+                    # If vel_yaw is positive, set it to 0.5; if it's negative, set it to -0.5
+                    self.vel_yaw = 0.5 if self.vel_yaw > 0 else -0.5
 
     def x_callback(self, msg):
         with self.data_lock:
@@ -94,7 +104,7 @@ class x_y_control():
             twist_x.linear.y = 0
             twist_x.linear.z = 0
             twist_x.angular.y = 0
-            twist_x.angular.z = 0
+            twist_x.angular.z = self.vel_yaw 
             twist_x.angular.x = 0
 
             twist_y.linear.y = y
