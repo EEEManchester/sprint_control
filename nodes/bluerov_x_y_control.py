@@ -25,20 +25,23 @@ class x_y_control():
         self.desire_x_sub = rospy.Subscriber("/bluerov/desire_x", Float64, self.desire_x_callback)
         self.position_y_sub = rospy.Subscriber("/bluerov/position_y", Float64, self.y_callback)
         self.desire_y_sub = rospy.Subscriber("/bluerov/desire_y", Float64, self.desire_y_callback)
-        self.yaw_sub = rospy.Subscriber("/yaw", Float64, self.yaw_callback)
+        self.yaw_sub = rospy.Subscriber("/yaw_w2t", Float64, self.yaw_callback)
 
     def yaw_callback(self, msg):
         with self.data_lock:
-                yaw = msg.data
-                self.vel_yaw = -1 + ((yaw - (-3.14)) * (1 - (-1)) / (3.14 - (-3.14)))
-                if abs(self.vel_yaw) > 0.5:
-                    # If vel_yaw is positive, set it to 0.5; if it's negative, set it to -0.5
-                    self.vel_yaw = 0.5 if self.vel_yaw > 0 else -0.5
-
+                if msg:
+                     
+                    yaw = msg.data
+                    self.vel_yaw = -1 + ((yaw - (-3.14)) * (1 - (-1)) / (3.14 - (-3.14)))
+                    if abs(self.vel_yaw) > 0.5:
+                        # If vel_yaw is positive, set it to 0.5; if it's negative, set it to -0.5
+                        self.vel_yaw = 0.5 if self.vel_yaw > 0 else -0.5
+                else:
+                     self.vel_yaw = 0
     def x_callback(self, msg):
         with self.data_lock:
                 self.position_x = msg.data
-                print(self.position_x)
+              
 
     def desire_x_callback(self, msg):
         with self.data_lock:
@@ -94,31 +97,47 @@ class x_y_control():
 
 
     def run(self):
-        rate = rospy.Rate(50) # 50 Hz
+        # rate = rospy.Rate(50) # 50 Hz
         while not rospy.is_shutdown():
             twist_x = Twist()
             twist_y = Twist()
             x=self.twist_x_cal(self.position_x, self.desire_x)
             y=self.twist_y_cal(self.position_y, self.desire_y)
-            twist_x.linear.x = x
-            twist_x.linear.y = 0
-            twist_x.linear.z = 0
-            twist_x.angular.y = 0
-            twist_x.angular.z = self.vel_yaw 
-            twist_x.angular.x = 0
+            if self.position_x ==0:
+                 
+                twist_x.linear.x = 0
+                twist_x.linear.y = 0
+                twist_x.linear.z = 0
+                twist_x.angular.y = 0
+                twist_x.angular.z = 0 
+                twist_x.angular.x = 0
 
-            twist_y.linear.y = y
-            twist_y.linear.x = 0
-            twist_y.linear.z = 0
-            twist_y.angular.y = 0
-            twist_y.angular.z = 0
-            twist_y.angular.x = 0
+                twist_y.linear.y = 0
+                twist_y.linear.x = 0
+                twist_y.linear.z = 0
+                twist_y.angular.y = 0
+                twist_y.angular.z = 0
+                twist_y.angular.x = 0
+            else:
+                twist_x.linear.x = 0.8*x
+                twist_x.linear.y = 0
+                twist_x.linear.z = 0
+                twist_x.angular.y = 0
+                twist_x.angular.z = self.vel_yaw 
+                twist_x.angular.x = 0
 
-            self.twist_x_pub.publish(twist_x)
-            self.twist_y_pub.publish(twist_y)
+                twist_y.linear.y = 0.8*y
+                twist_y.linear.x = 0
+                twist_y.linear.z = 0
+                twist_y.angular.y = 0
+                twist_y.angular.z = 0
+                twist_y.angular.x = 0
 
-            rate.sleep()
-        
+                self.twist_x_pub.publish(twist_x)
+                self.twist_y_pub.publish(twist_y)
+
+                # rate.sleep()
+            
 
 def main():
     node = x_y_control()
