@@ -14,7 +14,8 @@
     /bluerov/twist_rp
     /imu/data 
     /nav/filtered_imu/data 
-    /slam_out_pose /tag_detections 
+    /slam_out_pose 
+    /tag_detections 
     /usb_cam/image_raw/compressed 
     /tag_detections_raw 
     /bluerov/qualisys/MallARD_Center/pose 
@@ -23,6 +24,10 @@
     /qualisys/Mallard_pattern1/pose 
     /tag_detections_image 
     /dscap_sys 
+    /mallard/cmd_vel
+    /mallard/cmd_vel1
+    /mallard/cmd_vel2
+    /mavros/rc/override
     /qualisys/Mallard_pattern1/velocity" output="screen" />
 </launch>
 
