@@ -28,6 +28,7 @@
     /mallard/cmd_vel1
     /mallard/cmd_vel2
     /mavros/rc/override
-    /qualisys/Mallard_pattern1/velocity" output="screen" />
+    /qualisys/Mallard_pattern1/velocity
+    /desire_x_y_z" output="screen" />
 </launch>
 

@@ -68,9 +68,10 @@
       <include file="$(find launch_config)/launch/sensor/hector.launch"/>
       <!-- local planner -->
       <node pkg="mallard_autonomy" type="local_planner_cls.py" name="local_planner" output="screen"/>
-
+      <!-- <node pkg="mallard_autonomy" type="local_planner_turbidity.py" name="local_planner" output="screen"/> -->
       <!-- trajectory tracking conroller -->
       <node pkg="mallard_autonomy" type="traj_control.py" name="trajectory_control" output="screen">
+      <!-- <node pkg="mallard_autonomy" type="traj_control_turbidity.py" name="trajectory_control" output="screen"> -->
           <rosparam file="$(find launch_config)/$(arg ARG_MALLARD_VERSION)/cfg/yaml/$(arg ARG_MALLARD_VERSION).yaml" command="load"/>
       </node>
    </group>
