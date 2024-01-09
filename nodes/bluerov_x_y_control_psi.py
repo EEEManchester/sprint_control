@@ -20,6 +20,12 @@ class x_y_control():
         self.desire_x= 0.0
         self.desire_y= 0.0
         self.vel_yaw = 0
+        self.last_desire_x = None
+        self.last_desire_y = None
+        self.new_target_received_time_x = None
+        self.new_target_received_time_y = None
+        self.RAMP_DURATION = 2.0  # 2 seconds for ramping
+
         self.data_lock = threading.RLock()
         self.position_x_sub = rospy.Subscriber("/bluerov/position_x", Float64, self.x_callback)
         self.desire_x_sub = rospy.Subscriber("/bluerov/desire_x", Float64, self.desire_x_callback)
@@ -29,7 +35,7 @@ class x_y_control():
 
     def yaw_callback(self, msg):
         with self.data_lock:
-                if msg.data !=0:
+                if msg.data != 0:
                      
                     yaw = msg.data
                     self.vel_yaw = -1 + ((yaw - (-3.14)) * (1 - (-1)) / (3.14 - (-3.14)))
@@ -38,62 +44,67 @@ class x_y_control():
                         self.vel_yaw = 0.5 if self.vel_yaw > 0 else -0.5
                 else:
                      self.vel_yaw = 0
-    def x_callback(self, msg):
+    def desire_x_callback(self, msg):
         with self.data_lock:
-                self.position_x = msg.data
+            if self.last_desire_x != msg.data:
+                self.new_target_received_time_x = rospy.get_time()
+            self.last_desire_x = msg.data
+
+    def desire_y_callback(self, msg):
+        with self.data_lock:
+            if self.last_desire_y != msg.data:
+                self.new_target_received_time_y = rospy.get_time()
+            self.last_desire_y = msg.data
+
               
 
     def desire_x_callback(self, msg):
         with self.data_lock:
                 self.desire_x = msg.data  
 
-    def y_callback(self, msg):
-        with self.data_lock:
-
-                self.position_y = msg.data
-
     def desire_y_callback(self, msg):
         with self.data_lock:
  
                 self.desire_y = msg.data
 
-    def twist_x_cal(self,x,desire_x):
-            linear_x= 0.0
-            if desire_x == 0:
-                return linear_x
+    def twist_x_cal(self, x, desire_x):
+        error_x = desire_x - x
+        desired_velocity_x = 0.8 * error_x
+
+        # If a new target has been received recently
+        if self.new_target_received_time_x is not None:
+            elapsed_time = rospy.get_time() - self.new_target_received_time_x
+            if elapsed_time < self.RAMP_DURATION:
+                ramping_factor = elapsed_time / self.RAMP_DURATION
+                desired_velocity_x *= ramping_factor
             else:
-                linear_x = (desire_x - x)
+                self.new_target_received_time_x = None
 
-                if abs(linear_x) > 0.15:
-                    linear_x= 0.15 if linear_x > 0 else -0.15
+        # Clamp to max velocity
+        if abs(desired_velocity_x) > 0.15:
+            desired_velocity_x = 0.15 if desired_velocity_x > 0 else -0.15
 
-                # self.twist_x.linear.y = 0
-                # self.twist_x.linear.z = 0
-                # self.twist_x.angular.y = 0
-                # self.twist_x.angular.z = 0
-                # self.twist_x.angular.x = 0
+        return desired_velocity_x
 
-                return linear_x
-            
-    def twist_y_cal(self,y,desire_y):
-            
-            linear_y= 0.0
-            if desire_y == 0:
-                return linear_y
+    def twist_y_cal(self, y, desire_y):
+        error_y = desire_y - y
+        desired_velocity_y = -0.8 * error_y
+
+        # If a new target has been received recently
+        if self.new_target_received_time_y is not None:
+            elapsed_time = rospy.get_time() - self.new_target_received_time_y
+            if elapsed_time < self.RAMP_DURATION:
+                ramping_factor = elapsed_time / self.RAMP_DURATION
+                desired_velocity_y *= ramping_factor
             else:
-            
-                linear_y = -(desire_y - y)
+                self.new_target_received_time_y = None
 
-                if abs(linear_y) > 0.15:
-                    linear_y= 0.15 if linear_y > 0 else -0.15
+        # Clamp to max velocity
+        if abs(desired_velocity_y) > 0.15:
+            desired_velocity_y = 0.15 if desired_velocity_y > 0 else -0.15
 
-                # self.twist_y.linear.x = 0
-                # self.twist_y.linear.z = 0
-                # self.twist_y.angular.y = 0
-                # self.twist_y.angular.z = 0
-                # self.twist_y.angular.x = 0
+        return desired_velocity_y
 
-                return linear_y
 
 
     def run(self):
