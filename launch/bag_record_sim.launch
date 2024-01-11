@@ -1,0 +1,44 @@
+<launch>
+  <node name="record" pkg="rosbag" type="record" args="
+    -o ky_rosbag 
+    /bluerov/bluerov/tag_detections
+    /bluerov/bluerov/tag_detections_image
+    /bluerov/bluerov/tag_detections_image/compressed
+    /bluerov/bluerov/tag_detections_raw
+    /bluerov/cmd_vel1
+    /bluerov/cmd_vel2
+    /bluerov/euler_yaw
+    /bluerov/ground_truth/state
+    /bluerov/joy
+    /bluerov/joy/set_feedback
+    /bluerov/mallard/tag_detections
+    /bluerov/mallard/tag_detections_image
+    /bluerov/mallard/tag_detections_image/compressed
+    /bluerov/mallard/tag_detections_raw
+    /bluerov/mavros/rc/override
+    /bluerov/q_yaw
+    /bluerov/tag_detections
+    /bluerov/tag_detections_image
+    /bluerov/tag_detections_raw
+    /bluerov/twist
+    /initialpose
+    /joy
+    /joy/set_feedback
+    /mallard/cmd_vel
+    /mallard/cmd_vel1
+    /mallard/cmd_vel2
+    /mallard/euler_yaw
+    /mallard/ground_truth/state
+    /mallard/q_yaw
+    /mallard/state
+    /mallard/tag_detections
+    /mallard/tag_detections_image
+    /mallard/tag_detections_raw
+    /mallard/thruster_command
+    /mallard/thruster_use
+    /mallard/twist
+    /slam_out_pose
+    /syscommand
+    /tag_detections_sim" output="screen" />
+</launch>
+
