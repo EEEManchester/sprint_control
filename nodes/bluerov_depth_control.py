@@ -49,9 +49,9 @@ def publish_message():
     cmd_vel.linear.z = -(des_depth - depth)*0.5
 
     # cmd_vel.linear.z =0
-    if abs(cmd_vel.linear.z) > 0.5:
+    if abs(cmd_vel.linear.z) > 0.2:
         # cmd_vel.linear.z=0.8
-        cmd_vel.linear.z = 0.5 if cmd_vel.linear.z > 0 else -0.5
+        cmd_vel.linear.z = 0.2 if cmd_vel.linear.z > 0 else -0.2
     cmd_vel.linear.y = 0
     cmd_vel.linear.x = 0
 

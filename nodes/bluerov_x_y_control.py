@@ -25,13 +25,16 @@ class x_y_control():
         self.desire_x_sub = rospy.Subscriber("/bluerov/desire_x", Float64, self.desire_x_callback)
         self.position_y_sub = rospy.Subscriber("/bluerov/position_y", Float64, self.y_callback)
         self.desire_y_sub = rospy.Subscriber("/bluerov/desire_y", Float64, self.desire_y_callback)
-        self.yaw_sub = rospy.Subscriber("/yaw_w2t", Float64, self.yaw_callback)
+        # use xueliang's
+        # self.yaw_sub = rospy.Subscriber("/yaw_w2t", Float64, self.yaw_callback)
+        # use qualisys
+        self.yaw_sub = rospy.Subscriber("/yaw", Float64, self.yaw_callback)
 
     def yaw_callback(self, msg):
         with self.data_lock:
                 if msg.data !=0:
                      
-                    yaw = msg.data
+                    yaw = msg.data - 2.4
                     self.vel_yaw = -1 + ((yaw - (-3.14)) * (1 - (-1)) / (3.14 - (-3.14)))
                     if abs(self.vel_yaw) > 0.5:
                         # If vel_yaw is positive, set it to 0.5; if it's negative, set it to -0.5
@@ -64,8 +67,8 @@ class x_y_control():
             else:
                 linear_x = (desire_x - x)
 
-                if abs(linear_x) > 0.15:
-                    linear_x= 0.15 if linear_x > 0 else -0.15
+                if abs(linear_x) > 0.3:
+                    linear_x= 0.3 if linear_x > 0 else -0.3
 
                 # self.twist_x.linear.y = 0
                 # self.twist_x.linear.z = 0
@@ -84,8 +87,8 @@ class x_y_control():
             
                 linear_y = -(desire_y - y)
 
-                if abs(linear_y) > 0.15:
-                    linear_y= 0.15 if linear_y > 0 else -0.15
+                if abs(linear_y) > 0.3:
+                    linear_y= 0.3 if linear_y > 0 else -0.3
 
                 # self.twist_y.linear.x = 0
                 # self.twist_y.linear.z = 0

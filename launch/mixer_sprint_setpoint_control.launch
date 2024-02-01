@@ -29,7 +29,11 @@
 
         <node name="x_y_z_distributor" pkg="sprint_control" type="bluerov_x_y_z_distributor.py" />
         <node name="x_y_control" pkg="sprint_control" type="bluerov_x_y_control.py" />
-        
+        <!-- UNCOMMENT WHEN NEED SETPOINT CONTROL -->
+
+        <!-- <node name="x_y_z_check" pkg="sprint_control" type="go_square.py" /> -->
+        <!-- <node name="x_y_control" pkg="sprint_control" type="bluerov_x_y_control.py" /> -->
+        <!-- jan sprint -->
         <node name="joy_node" pkg="joy" type="joy_node">
                 <remap from="joy" to="joy_bluerov"/>
                 <param name="dev" value="/dev/input/js0" />
